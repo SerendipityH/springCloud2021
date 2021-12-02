@@ -1,7 +1,6 @@
 package spring.serendipity.sprincloud;
 
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  * @author serendipity
@@ -10,7 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 public class PaymentMain8004 {
     public static void main(String[] args) {
-        SpringApplication.run(PaymentMain8004.class,args);
+        SpringApplication.run(PaymentMain8004.class, args);
     }
 }
 

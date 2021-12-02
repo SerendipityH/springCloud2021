@@ -8,10 +8,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
-import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author serendipity
@@ -31,13 +31,12 @@ public class PaymentController {
     private DiscoveryClient discoveryClient;
 
 
-
     @PostMapping(value = "/payment/create")
     public CommonResult create(@RequestBody Payment payment) {
         int result = paymentService.create(payment);
         log.info("*******" + result);
         if (result > 0) {
-            return new CommonResult(200, "success serverPort:"+serverPort,result);
+            return new CommonResult(200, "success serverPort:" + serverPort, result);
         } else {
             return new CommonResult(400, "fail");
         }
@@ -48,7 +47,7 @@ public class PaymentController {
         Payment payment = paymentService.getPaymentById(id);
         log.info("*******查询结果:" + payment);
         if (payment != null) {
-            return new CommonResult(200, "success  serverPort:"+serverPort, payment);
+            return new CommonResult(200, "success  serverPort:" + serverPort, payment);
         } else {
             return new CommonResult(400, "fail");
         }
@@ -56,20 +55,32 @@ public class PaymentController {
 
 
     @GetMapping(value = "/payment/discovery")
-    public Object discovery(){
+    public Object discovery() {
         List<String> services = discoveryClient.getServices();
         for (String element : services) {
-            log.info("***** element:"+element);
+            log.info("***** element:" + element);
         }
         List<ServiceInstance> instances = discoveryClient.getInstances("CLOUD-PAYMENT-SERVICE");
         for (ServiceInstance instance : instances) {
-            log.info(instance.getServiceId()+"\t"+instance.getHost()+"\t"+instance.getPort()+"\t"+instance.getUri());
+            log.info(instance.getServiceId() + "\t" + instance.getHost() + "\t" + instance.getPort() + "\t" + instance.getUri());
         }
         return this.discoveryClient;
     }
+
     @GetMapping(value = "/payment/lb")
-    public String getPaymentLB(){
+    public String getPaymentLB() {
         return serverPort;
     }
+
+    @GetMapping(value = "/payment/feign/timeout")
+    public String paymentFeignTimeout() {
+        try {
+            TimeUnit.SECONDS.sleep(3);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return serverPort;
+    }
+
 
 }

@@ -56,15 +56,16 @@ public class OrderController {
             return new CommonResult<>(444, "失败");
         }
     }
+
     @GetMapping(value = "/consumer/payment/lb")
-    public String getPaymentLB(){
+    public String getPaymentLB() {
         List<ServiceInstance> instances = discoveryClient.getInstances("CLOUD-PAYMENT-SERVICE");
-        if (instances == null || instances.size() <= 0){
+        if (instances == null || instances.size() <= 0) {
             return null;
         }
         ServiceInstance serviceInstance = loadBalancer.instances(instances);
         URI uri = serviceInstance.getUri();
-        return restTemplate.getForObject(uri+"/payment/lb",String.class);
+        return restTemplate.getForObject(uri + "/payment/lb", String.class);
     }
 
 }

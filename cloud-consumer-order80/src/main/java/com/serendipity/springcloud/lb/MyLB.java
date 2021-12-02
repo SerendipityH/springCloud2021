@@ -17,14 +17,14 @@ public class MyLB implements LoadBalancer {
     private AtomicInteger atomicInteger = new AtomicInteger(0);
 
     //坐标
-    private final int getAndIncrement(){
+    private final int getAndIncrement() {
         int current;
         int next;
         do {
             current = this.atomicInteger.get();
             next = current >= Integer.MAX_VALUE ? 0 : current + 1;
-        }while (!this.atomicInteger.compareAndSet(current,next));  //第一个参数是期望值，第二个参数是修改值是
-        System.out.println("*******第几次访问，次数next: "+next);
+        } while (!this.atomicInteger.compareAndSet(current, next));  //第一个参数是期望值，第二个参数是修改值是
+        System.out.println("*******第几次访问，次数next: " + next);
         return next;
     }
 
