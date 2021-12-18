@@ -1,4 +1,4 @@
-package com.serendipity.springcloud.alibaba.Controller;
+package com.serendipity.springcloud.alibaba.controller;
 
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.alibaba.csp.sentinel.slots.block.BlockException;
